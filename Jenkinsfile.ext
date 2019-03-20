@@ -1,7 +1,6 @@
 // Basic Pipeline
 
 def clusterCredsID = env.CLUSTER_CREDENTIALS ?: "cluster-creds"
-de
 
 pipeline {
     environment {
