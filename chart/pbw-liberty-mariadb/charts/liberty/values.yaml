@@ -1,0 +1,19 @@
+k8sNamespace: changeme
+image:
+  repository: djccarew/pbw-mysql
+  name: pbw-mysql
+  tag: "1.0"
+  pullPolicy: Always
+
+ingress:
+  enabled: true
+  host: changemetoo
+
+service:
+  type: ClusterIP
+  internalPort: 9080
+
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}

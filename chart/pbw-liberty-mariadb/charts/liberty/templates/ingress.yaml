@@ -1,0 +1,26 @@
+{{ if .Values.ingress.enabled -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+# annotations:
+#   ingress.kubernetes.io/rewrite-target: /tradrr
+  annotations:
+    #kubernetes.io/ingress.class: "nginx"
+    #ingress.kubernetes.io/affinity: "cookie"
+    #ingress.kubernetes.io/session-cookie-name: "route"
+    #ingress.kubernetes.io/session-cookie-hash: "sha1"
+    #ingress.kubernetes.io/rewrite-target: /
+    #ingress.kubernetes.io/secure-backends: "true"
+    #ingress.kubernetes.io/app-root: "/tradr"
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-ingress
+spec:
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - path: /pbw
+        backend:
+          serviceName: {{ .Release.Name }}-{{ .Chart.Name }}
+          servicePort: 9080
+
+  {{- end }}
