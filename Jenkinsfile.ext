@@ -1,10 +1,11 @@
 // Basic Pipeline
 
 def clusterCredsID = env.CLUSTER_CREDENTIALS ?: "cluster-creds"
+de
 
 pipeline {
     environment {
-         REGISTRY_URL = "us.icr.io"
+         REGISTRY_URL = "docker.io"
          MAJOR_PREFIX = "1.0.0"
          RELEASE_NAME = "pbw-liberty-mariadb"
          DEPLOYMENT_NS = "default"
