@@ -1,6 +1,7 @@
 // Basic Pipeline
 
 def clusterCredsID = env.CLUSTER_CREDENTIALS ?: "cluster-creds"
+def registryCredsID = env.REGISTRY_CREDENTIALS ?: "registry-creds"
 
 pipeline {
     environment {
@@ -51,7 +52,7 @@ pipeline {
 
        stage('Push Docker Image to Registry') {
           steps {
-             withCredentials([usernamePassword(credentialsId: clusterCredsID,
+             withCredentials([usernamePassword(credentialsId: registryCredsID,
                                           usernameVariable: 'USERNAME',
                                           passwordVariable: 'PASSWORD')]) {
                  sh """
