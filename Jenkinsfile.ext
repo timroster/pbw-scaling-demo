@@ -1,11 +1,11 @@
 // Basic Pipeline
 
 def clusterCredsID = env.CLUSTER_CREDENTIALS ?: "cluster-creds"
-def registryCredsID = env.REGISTRY_CREDENTIALS ?: "registry-creds"
+
 
 pipeline {
     environment {
-         REGISTRY_URL = "docker.io"
+         REGISTRY_URL = "us.icr.io"
          MAJOR_PREFIX = "1.0.0"
          RELEASE_NAME = "pbw-liberty-mariadb"
          DEPLOYMENT_NS = "default"
@@ -43,8 +43,8 @@ pipeline {
        stage('Build Docker Image') {
             steps {
                 script {
-                   echo "docker build -t ${REGISTRY_URL}/${REGISTRY_NS}/pbw-mariadb-web:${MAJOR_PREFIX}.${BUILD_NUMBER} ."
-                   sh 'docker build -t ${REGISTRY_URL}/${REGISTRY_NS}/pbw-mariadb-web:${MAJOR_PREFIX}.${BUILD_NUMBER} .'
+                   echo "docker build -t ${REGISTRY_URL}/${REGISTRY_NS}/pbw-mariadb-web-scaling:${MAJOR_PREFIX}.${BUILD_NUMBER} ."
+                   sh 'docker build -t ${REGISTRY_URL}/${REGISTRY_NS}/pbw-mariadb-web-scaling:${MAJOR_PREFIX}.${BUILD_NUMBER} .'
                 }
 
             }
@@ -52,13 +52,13 @@ pipeline {
 
        stage('Push Docker Image to Registry') {
           steps {
-             withCredentials([usernamePassword(credentialsId: registryCredsID,
+             withCredentials([usernamePassword(credentialsId: clusterCredsID,
                                           usernameVariable: 'USERNAME',
                                           passwordVariable: 'PASSWORD')]) {
                  sh """
                  #!/bin/bash
                  docker login -u ${USERNAME} -p ${PASSWORD} ${env.REGISTRY_URL}
-                 docker push ${env.REGISTRY_URL}/${env.REGISTRY_NS}/pbw-mariadb-web:${env.MAJOR_PREFIX}.${env.BUILD_NUMBER}
+                 docker push ${env.REGISTRY_URL}/${env.REGISTRY_NS}/pbw-mariadb-web-scaling:${env.MAJOR_PREFIX}.${env.BUILD_NUMBER}
                  """
              }
            }
